@@ -1,27 +1,31 @@
 import { useApp, Wrapper } from "@graphcms/app-sdk-react";
 import { Box, Button, Text, Heading, Stack } from "@hygraph/baukasten";
+import { useRouter } from "next/router";
 
-function SetupElement() {
+function SetupElement({ code }: { code: string }) {
     const { installation } = useApp();
     if (installation.status === "COMPLETED") {
         return <Configure />;
     }
-    return <Install />;
+    return <Install code={code} />;
 }
 
-function Install() {
+function Install({ code }: { code: string }) {
     const { updateInstallation } = useApp();
     return (
         <Stack gap="12">
             <Box>
-                <Heading>Hygraph Boilerplate App</Heading>
-                <Text>This is an example app</Text>
+                <Heading>Baukasten UI</Heading>
+                <Text>
+                    Add custom fields to your Hygraph project using the
+                    Baukasten UI library.
+                </Text>
                 <Button
                     onClick={() =>
                         updateInstallation({ status: "COMPLETED", config: {} })
                     }
                 >
-                    Install App
+                    Install
                 </Button>
             </Box>
         </Stack>
@@ -33,8 +37,11 @@ function Configure() {
     return (
         <Stack gap="12">
             <Box>
-                <Heading>Hygraph Boilerplate App</Heading>
-                <Text>This is an example app</Text>
+                <Heading>Baukasten UI</Heading>
+                <Text>
+                    Add custom fields to your Hygraph project using the
+                    Baukasten UI library.
+                </Text>
                 <Button
                     onClick={() =>
                         updateInstallation({ status: "COMPLETED", config: {} })
@@ -48,9 +55,10 @@ function Configure() {
 }
 
 export default function Setup() {
+    const { query } = useRouter();
     return (
         <Wrapper>
-            <SetupElement />
+            <SetupElement code={query.code as string} />
         </Wrapper>
     );
 }
